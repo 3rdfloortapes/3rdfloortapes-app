@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Image, View, Text, ScrollView, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
-import { Image, fetchCollections } from '../api/shopify';
+import { fetchCollections } from '../api/shopify';
 
 export default function HomeScreen({ navigation }: any) {
   const [collections, setCollections] = useState<any[]>([]);
