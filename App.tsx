@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
     borderTopWidth: 1,
     borderTopColor: '#333333',
-    paddingBottom: 8,
+    paddingBottom: 30,
     paddingTop: 8,
   },
   tab: { flex: 1, alignItems: 'center' },
