@@ -16,7 +16,7 @@ export default function HomeScreen({ navigation }: any) {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.header}>
-        <Image source={require('../assets/logo.png')} style={styles.logo} resizeMode="contain" />
+        <Image source={require('../assets/logo.jpg')} style={styles.logo} resizeMode="contain" />
       </View>
       <View style={styles.banner}>
         <Text style={styles.bannerText}>Flat-rate $6.50 on $20+ - Free shipping on $75+ - Ships worldwide</Text>
