@@ -11,6 +11,7 @@ import ProductScreen from './src/screens/ProductScreen';
 import MakeOfferScreen from './src/screens/MakeOfferScreen';
 import MyOffersScreen from './src/screens/MyOffersScreen';
 import CartScreen from './src/screens/CartScreen';
+import WebViewScreen from './src/screens/WebViewScreen';
 import DrawerMenu from './src/components/DrawerMenu';
 
 function Main() {
@@ -69,6 +70,7 @@ function Main() {
         {screen === 'MakeOffer' && <MakeOfferScreen route={{ params }} navigation={navigation} />}
         {screen === 'myoffers' && <MyOffersScreen navigation={navigation} />}
         {screen === 'cart' && <CartScreen navigation={navigation} />}
+        {screen === 'webview' && <WebViewScreen route={{ params }} navigation={navigation} />}
       </View>
       <View style={styles.tabBar}>
         <TouchableOpacity style={styles.tab} onPress={() => { setScreen('home'); setActiveTab('shop'); }}>
