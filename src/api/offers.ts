@@ -28,7 +28,7 @@ export interface Offer {
 }
 
 async function apiCall(path: string, options?: RequestInit) {
-  const res = await fetch(`${OFFER_API_BASE}${path}`, { signal: AbortSignal.timeout(60000),
+  const res = await fetch(`${OFFER_API_BASE}${path}`, {
     headers: { 'Content-Type': 'application/json' },
     ...options,
   });
