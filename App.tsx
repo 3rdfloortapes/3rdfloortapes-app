@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   View, Text, StyleSheet,
   TouchableOpacity, SafeAreaView,
+  BackHandler,
 } from 'react-native';
 import { CartProvider, useCart } from './src/hooks/useCart';
 import HomeScreen from './src/screens/HomeScreen';
@@ -34,6 +35,14 @@ function Main() {
   }
 
   const navigation = { navigate, goBack };
+
+  React.useEffect(() => {
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (screen !== 'home') { goBack(); return true; }
+      return false;
+    });
+    return () => sub.remove();
+  }, [screen, history]);
 
   const showBack = screen !== 'home' && screen !== 'myoffers' && screen !== 'cart';
 
