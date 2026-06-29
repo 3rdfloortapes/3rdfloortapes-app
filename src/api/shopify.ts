@@ -169,3 +169,23 @@ export async function fetchHomepageCollections() {
   );
   return results.filter(Boolean);
 }
+
+export async function fetchMenu(handle: string = 'main-menu') {
+  const query = `
+    query GetMenu($handle: String!) {
+      menu(handle: $handle) {
+        title
+        items {
+          title
+          url
+          items {
+            title
+            url
+          }
+        }
+      }
+    }
+  `;
+  const data = await storefrontQuery(query, { handle });
+  return data.menu;
+}

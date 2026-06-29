@@ -11,12 +11,15 @@ import ProductScreen from './src/screens/ProductScreen';
 import MakeOfferScreen from './src/screens/MakeOfferScreen';
 import MyOffersScreen from './src/screens/MyOffersScreen';
 import CartScreen from './src/screens/CartScreen';
+import DrawerMenu from './src/components/DrawerMenu';
 
 function Main() {
   const [screen, setScreen] = useState('home');
   const [params, setParams] = useState<any>({});
   const [activeTab, setActiveTab] = useState('shop');
   const [history, setHistory] = useState<string[]>([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   const { itemCount } = useCart();
 
   function navigate(screenName: string, screenParams?: any) {
@@ -38,21 +41,27 @@ function Main() {
 
   React.useEffect(() => {
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (drawerOpen) { setDrawerOpen(false); return true; }
       if (screen !== 'home') { goBack(); return true; }
       return false;
     });
     return () => sub.remove();
-  }, [screen, history]);
+  }, [screen, history, drawerOpen]);
 
   const showBack = screen !== 'home' && screen !== 'myoffers' && screen !== 'cart';
 
   return (
     <SafeAreaView style={styles.container}>
-      {showBack && (
-        <TouchableOpacity style={styles.backBtn} onPress={goBack}>
-          <Text style={styles.backText}>← BACK</Text>
+      <View style={styles.topBar}>
+        <TouchableOpacity onPress={() => setDrawerOpen(true)} style={styles.hamburger}>
+          <Text style={styles.hamburgerText}>☰</Text>
         </TouchableOpacity>
-      )}
+        {showBack && (
+          <TouchableOpacity onPress={goBack} style={styles.backBtn}>
+            <Text style={styles.backText}>← BACK</Text>
+          </TouchableOpacity>
+        )}
+      </View>
       <View style={styles.screen}>
         {screen === 'home' && <HomeScreen navigation={navigation} />}
         {screen === 'collection' && <CollectionScreen route={{ params }} navigation={navigation} />}
@@ -63,7 +72,7 @@ function Main() {
       </View>
       <View style={styles.tabBar}>
         <TouchableOpacity style={styles.tab} onPress={() => { setScreen('home'); setActiveTab('shop'); }}>
-          <Text style={styles.tabIcon}>📼</Text>
+          <Text style={styles.tabIcon}>🏠</Text>
           <Text style={[styles.tabLabel, activeTab === 'shop' && styles.tabActive]}>SHOP</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.tab} onPress={() => { setScreen('cart'); setActiveTab('cart'); }}>
@@ -77,6 +86,7 @@ function Main() {
           <Text style={[styles.tabLabel, activeTab === 'offers' && styles.tabActive]}>OFFERS</Text>
         </TouchableOpacity>
       </View>
+      <DrawerMenu visible={drawerOpen} onClose={() => setDrawerOpen(false)} navigation={navigation} />
     </SafeAreaView>
   );
 }
@@ -91,9 +101,17 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000000' },
-  screen: { flex: 1 },
-  backBtn: { paddingHorizontal: 16, paddingVertical: 10, paddingTop: 50, borderBottomWidth: 1, borderBottomColor: '#222222' },
+  topBar: {
+    flexDirection: 'row', alignItems: 'center',
+    paddingHorizontal: 16, paddingVertical: 10,
+    borderBottomWidth: 1, borderBottomColor: '#222222',
+    backgroundColor: '#000000',
+  },
+  hamburger: { paddingRight: 16 },
+  hamburgerText: { color: '#FFFFFF', fontSize: 22 },
+  backBtn: { flex: 1 },
   backText: { color: '#FFFFFF', fontSize: 12, letterSpacing: 1 },
+  screen: { flex: 1 },
   tabBar: {
     flexDirection: 'row',
     backgroundColor: '#000000',
