@@ -140,3 +140,32 @@ export function getProductImage(product: any): string | null {
 export function getFirstVariant(product: any) {
   return product?.variants?.edges?.[0]?.node ?? null;
 }
+
+export async function fetchHomepageCollections() {
+  const handles = [
+    'vintage-cassette-tapes',
+    'rock-alternative-punk-cassette-tapes',
+    'rap-and-hip-hop-cassette-tapes',
+    'r-b-and-soul-tapes',
+    'new-and-used-indie-tapes',
+    '5-everything',
+    'soundtracks-and-compilations',
+    'tapes-under-3',
+    'cassette-singles',
+    'pop-tapes',
+    't-shirts-by-fake-handshake',
+    '6-24-7pm-wednesday-inventory-listing-copy',
+  ];
+  const query = `
+    query GetCollectionsByHandle($handle: String!) {
+      collection(handle: $handle) {
+        id title handle
+        image { url altText }
+      }
+    }
+  `;
+  const results = await Promise.all(
+    handles.map(handle => storefrontQuery(query, { handle }).then(d => d.collection).catch(() => null))
+  );
+  return results.filter(Boolean);
+}
